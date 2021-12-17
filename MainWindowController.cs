@@ -35,8 +35,8 @@ class MainWindowController : INotifyPropertyChanged{
     public BitmapImage? Image =>
         (_index < _images.Length) ? _images[_index].Image : null;
     
-    public string? ImageFileName =>
-        (_index < _images.Length) ? System.IO.Path.GetFileName(_images[_index].File) : null;
+    public string? ImageFileName => (_index < _images.Length)
+            ? Path.GetFileNameWithoutExtension(_images[_index].File) : null;
     
     public MainWindowController() {
         var argument = Environment.GetCommandLineArgs().ElementAtOrDefault(1);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Skatech.ImageViewer"
         mc:Ignorable="d"
-        Title="{Binding ImageFileName, StringFormat='Image Viewer - {0}'}"
+        Title="{Binding ImageFileName, StringFormat='\{0} - Image Viewer'}"
         Height="450" Width="800" Background="AliceBlue"
         KeyDown="MainWindow_OnKeyDown">
     <Window.DataContext>
@@ -29,10 +29,4 @@
             </Image.RenderTransform>
         </Image>
     </ScrollViewer>
-    <!-- <Image Name="Image" SnapsToDevicePixels="True" Source="{Binding Image}"/> -->
 </Window>
-
-<!-- PreviewMouseLeftButtonDown="ItemTemplate_PreviewMouseLeftButtonSwitch" -->
-<!-- PreviewMouseLeftButtonUp="ItemTemplate_PreviewMouseLeftButtonSwitch" -->
-<!-- PreviewMouseWheel="ItemTemplateScrollViewer_MouseWheel" -->
-<!-- MouseMove="ItemTemplate_MouseMove" ScrollChanged="ScrollViewer_ScrollChanged" -->
