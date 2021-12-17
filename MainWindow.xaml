@@ -1,0 +1,38 @@
+﻿<Window x:Class="Skatech.ImageViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Skatech.ImageViewer"
+        mc:Ignorable="d"
+        Title="{Binding ImageFileName, StringFormat='Image Viewer - {0}'}"
+        Height="450" Width="800" Background="AliceBlue"
+        KeyDown="MainWindow_OnKeyDown">
+    <Window.DataContext>
+        <local:MainWindowController />
+    </Window.DataContext>
+    <ScrollViewer Focusable="False"
+                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                  ScrollChanged="ScrollViewer_OnScrollChanged"
+                  PreviewMouseLeftButtonDown="ScrollViewer_OnPreviewMouseLeftButtonUpOrDown"
+                  PreviewMouseLeftButtonUp="ScrollViewer_OnPreviewMouseLeftButtonUpOrDown"
+                  PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel"
+                  MouseMove="ScrollViewer_OnMouseMove">
+        <Image Source="{Binding Image}" Stretch="None" StretchDirection="Both"
+               SnapsToDevicePixels="True" RenderTransformOrigin="0.5, 0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding TranslateX}" Y="{Binding TranslateY}" />
+                    <ScaleTransform CenterX="0.5" CenterY="0.5"
+                                    ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+    </ScrollViewer>
+    <!-- <Image Name="Image" SnapsToDevicePixels="True" Source="{Binding Image}"/> -->
+</Window>
+
+<!-- PreviewMouseLeftButtonDown="ItemTemplate_PreviewMouseLeftButtonSwitch" -->
+<!-- PreviewMouseLeftButtonUp="ItemTemplate_PreviewMouseLeftButtonSwitch" -->
+<!-- PreviewMouseWheel="ItemTemplateScrollViewer_MouseWheel" -->
+<!-- MouseMove="ItemTemplate_MouseMove" ScrollChanged="ScrollViewer_ScrollChanged" -->

@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <BaseIntermediateOutputPath>.out\obj\</BaseIntermediateOutputPath>
+    <OutputPath>.out\bin\</OutputPath>
+  </PropertyGroup>
+</Project>
