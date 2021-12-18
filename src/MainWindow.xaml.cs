@@ -21,6 +21,7 @@ namespace Skatech.ImageViewer;
 public partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();
+        Components.Presentation.WindowBoundsKeeper.Register(this, "WindowBounds");
     }
     
     private void ScrollViewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
@@ -64,6 +65,9 @@ public partial class MainWindow : Window {
                 break;
             case Key.Right:
                 ctr.Shift(1);
+                break;
+            case Key.Escape:
+                Close();
                 break;
         }
     }

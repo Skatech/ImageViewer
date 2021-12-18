@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Skatech.ImageViewer"
         mc:Ignorable="d"
         Title="{Binding ImageFileName, StringFormat='\{0} - Image Viewer'}"
-        Height="450" Width="800" Background="AliceBlue"
+        MinHeight="370" MinWidth="420" Background="AliceBlue"
         KeyDown="MainWindow_OnKeyDown">
     <Window.DataContext>
         <local:MainWindowController />
