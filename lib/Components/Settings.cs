@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using Skatech.Configuration;
 using Skatech.Extensions.Runtime;
 
 namespace Skatech.Components.Settings;
@@ -114,9 +111,8 @@ class SettingsService : ISettings, IDisposable {
     }
 
     public SettingsService(string path) {
-        if (File.Exists(Path = path)) {
-            Load();
-        }
+        Path = path;
+        Load();
     }
 
     ~SettingsService() {
@@ -137,56 +133,28 @@ class SettingsService : ISettings, IDisposable {
     }
 
     public string? Set(string name, string? value) {
-        if (IsNameValid(name)) {
-            if (value == null) {
-                _values.Remove(name);
-                return value;
-            }
-            if (IsValueValid(value)) {
-                var previous = Get(name);
-                if (value == previous) {
-                    return previous;
-                }
-                _values[name] = value;
-                Modified = true;
-                return value;
-            }
-            throw new FormatException($"Setting value has invalid format: \"{name}\".");
+        ConfigWriter.ValidateKey(name);
+        ConfigWriter.ValidateValue(value);
+        if (value == null) {
+            _values.Remove(name);
+            return value;
         }
-        throw new FormatException($"Setting name has invalid format: \"{name}\".");
+        var previous = Get(name);
+        if (value == previous) {
+            return previous;
+        }
+        _values[name] = value;
+        Modified = true;
+        return value;
     }
 
     public void Load() {
-        var regex = new Regex(@"\A\s*(\w+)=(.*)\z", RegexOptions.Compiled);
-        var lines = File.ReadAllLines(Path, Encoding.UTF8);
-        _values.Clear();
-        foreach (var line in lines) {
-            var match = regex.Match(line);
-            if (match.Success) {
-                _values.Add(match.Result("$1"), match.Result("$2"));
-            }
-            else
-                throw new FormatException(String.Format(
-                    "Config parsing error in file {0} line {1}", Path, 1 + Array.IndexOf(lines, line)));
-        }
+        ConfigReader.FromFile(Path).AsDictionary(_values);
         Modified = false;
     }
 
     public void Save() {
-        using var writer = new StreamWriter(Path, false, Encoding.UTF8);
-        foreach (var record in _values) {
-            writer.Write(record.Key);
-            writer.Write('=');
-            writer.WriteLine(record.Value);
-        }
+        ConfigWriter.FromEnumerable(_values).WriteFile(Path);
         Modified = false;
-    }
-
-    public static bool IsNameValid(string input) {
-        return input.All(Char.IsLetterOrDigit);
-    }
-
-    public static bool IsValueValid(string input) {
-        return !(input.Contains('\r') || input.Contains('\n'));
     }
 }
