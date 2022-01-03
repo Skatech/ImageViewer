@@ -17,7 +17,8 @@
                   PreviewMouseLeftButtonDown="ScrollViewer_OnPreviewMouseLeftButtonUpOrDown"
                   PreviewMouseLeftButtonUp="ScrollViewer_OnPreviewMouseLeftButtonUpOrDown"
                   PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel"
-                  MouseMove="ScrollViewer_OnMouseMove">
+                  MouseMove="ScrollViewer_OnMouseMove"
+                  MouseDoubleClick="ScrollViewer_OnMouseDoubleClick">
         <Image Source="{Binding Image}" Stretch="None" StretchDirection="Both"
                SnapsToDevicePixels="True" RenderTransformOrigin="0.5, 0.5">
             <Image.RenderTransform>

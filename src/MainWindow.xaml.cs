@@ -23,7 +23,20 @@ public partial class MainWindow : Window {
         InitializeComponent();
         Components.Presentation.WindowBoundsKeeper.Register(this, "WindowBounds");
     }
-    
+
+    private void SwitchFullScreen() {
+        if (WindowState == WindowState.Maximized) {
+            WindowState = WindowState.Normal;
+            WindowStyle = WindowStyle.SingleBorderWindow;
+            Background = Brushes.AliceBlue;
+        }
+        else {
+            WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+            Background = Brushes.Black;
+        }
+    }
+
     private void ScrollViewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
         if (sender is ScrollViewer scw) {
             var ctr = (MainWindowController) DataContext;
@@ -53,12 +66,12 @@ public partial class MainWindow : Window {
 
     private void ScrollViewer_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e) {
         var ctr = (MainWindowController) DataContext;
-        var amount = e.Delta / 5000.0;
-        ctr.SetScale(Math.Min(10.0, Math.Max(0.1, 4.0 * Math.Pow(Math.Sqrt(ctr.Scale / 4.0) + amount, 2))));
+        var val = 4.0 * Math.Pow(Math.Sqrt(ctr.Scale / 4.0) + e.Delta / 5000.0, 2);
+        ctr.SetScale(Math.Clamp(val, 0.1, 10.0));
     }
 
     private void MainWindow_OnKeyDown(object sender, KeyEventArgs e) {
-        var ctr = (MainWindowController)DataContext;
+        var ctr = (MainWindowController) DataContext;
         switch (e.Key) {
             case Key.Left:
                 ctr.Shift(-1);
@@ -66,9 +79,19 @@ public partial class MainWindow : Window {
             case Key.Right:
                 ctr.Shift(1);
                 break;
+            case Key.F:
+                SwitchFullScreen();
+                break;
             case Key.Escape:
-                Close();
+                if (WindowState == WindowState.Maximized) {
+                    SwitchFullScreen();
+                } else Close();
                 break;
         }
+    }
+
+    private void ScrollViewer_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        _origin = null;
+        SwitchFullScreen();
     }
 }

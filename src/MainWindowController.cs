@@ -110,7 +110,7 @@ class MainWindowController : INotifyPropertyChanged{
         bitmap.BeginInit();
         bitmap.CacheOption = BitmapCacheOption.OnLoad;
         bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-        bitmap.UriSource = new("file:///" + System.IO.Path.GetFullPath(path));
+        bitmap.UriSource = new("file:///" + Path.GetFullPath(path));
         bitmap.EndInit();
         return bitmap;
     }
